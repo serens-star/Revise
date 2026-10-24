@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Revise</title>
+    <meta
+      name="description"
+      content="A writing space that makes you think before an AI will answer."
+    />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <noscript><p class="page">Revise needs JavaScript to run.</p></noscript>
+
+    <main class="page">
+      <header class="masthead">
+        <h1>Revise</h1>
+        <p class="lede">
+          A place to think on the page. Help is available, but only once you
+          have done some thinking of your own.
+        </p>
+      </header>
+
+      <section aria-labelledby="prompt-label">
+        <label id="prompt-label" class="prompt" for="draft"
+          >What are you trying to work out?</label
+        >
+        <textarea
+          id="draft"
+          class="field field-writing"
+          spellcheck="true"
+          rows="12"
+          placeholder="Begin anywhere. A problem, a paragraph, half an idea."
+        ></textarea>
+        <p id="paste-note" class="note" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="effort" aria-label="Effort state">
+        <div class="effort-head">
+          <span id="effort-word" class="effort-word" aria-live="polite"
+            >Just beginning</span
+          >
+          <button
+            id="effort-toggle"
+            class="link"
+            type="button"
+            aria-expanded="false"
+            aria-controls="effort-detail"
+          >
+            what counts?
+          </button>
+        </div>
+        <div
+          class="track"
+          id="track"
+          role="progressbar"
+          aria-label="Effort so far"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          aria-valuenow="0"
+        >
+          <div id="fill" class="fill"></div>
+        </div>
+        <div id="effort-detail" class="detail" hidden>
+          <p>
+            Help unlocks when all three of these have been met. Pasting text
+            cannot satisfy any of them.
+          </p>
+          <ul>
+            <li>
+              <span id="d-time">0:00</span> of <span id="t-time"></span> of
+              <strong>time spent thinking</strong>. Active typing counts fully,
+              short pauses count partly, and long absences do not count.
+            </li>
+            <li>
+              <span id="d-words">0</span> of <span id="t-words"></span>
+              <strong>words written by hand</strong>. Pasted text is set aside.
+            </li>
+            <li>
+              <span id="d-rev">0</span> of <span id="t-rev"></span>
+              <strong>revisions</strong>. Each separate moment of cutting or
+              changing your mind counts once.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="help" class="panel help" hidden aria-labelledby="help-title">
+        <h2 id="help-title" style="--i: 0">You have earned a conversation.</h2>
+        <p class="muted" style="--i: 1">
+          Say what kind of help you want, and why. Naming it is part of the
+          work.
+        </p>
+
+        <fieldset class="kinds" style="--i: 2">
+          <legend class="sr">Kind of help</legend>
+          <label
+            ><input type="radio" name="kind" value="question" /><span
+              >Question my argument</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="kind" value="unclear" /><span
+              >Show me where I am unclear</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="kind" value="assumption" /><span
+              >Challenge an assumption</span
+            ></label
+          >
+          <label
+            ><input type="radio" name="kind" value="direction" /><span
+              >Point toward a direction, not a draft</span
+            ></label
+          >
+        </fieldset>
+
+        <label for="why" class="prompt" style="--i: 3"
+          >Why this, and why now?</label
+        >
+        <textarea
+          id="why"
+          class="field"
+          rows="3"
+          style="--i: 3"
+          placeholder="In your own words, in a sentence or two."
+        ></textarea>
+
+        <div class="actions" style="--i: 4">
+          <button id="ask" class="btn" type="button" disabled>
+            Ask, slowly
+          </button>
+          <span id="ask-hint" class="note"></span>
+        </div>
+      </section>
+
+      <section id="waiting" class="panel waiting" hidden aria-live="polite">
+        <div class="breath" aria-hidden="true"></div>
+        <p id="waiting-msg" class="waiting-msg">
+          Reading what you wrote, slowly.
+        </p>
+      </section>
+
+      <section id="response" class="panel response" hidden>
+        <p class="eyebrow">A few things to sit with</p>
+        <div id="response-text" class="response-text" aria-hidden="true"></div>
+        <p id="response-sr" class="sr" aria-live="polite"></p>
+        <p id="response-note" class="note"></p>
+        <p id="spent-note" class="note"></p>
+      </section>
+
+      <footer class="foot">
+        <details>
+          <summary>About this design</summary>
+          <div class="about">
+            <p>
+              Revise treats the interface itself as an argument. Its question is
+              what is lost when the friction of thinking is removed, and whether
+              a deliberately slow, human-first interface can restore a sense of
+              authorship.
+            </p>
+            <p>
+              <strong>Why help is withheld.</strong> Gerlich (2025) reports a
+              negative relationship between frequent AI use and critical
+              thinking, linked to cognitive offloading. The tool does not refuse
+              AI. It changes the terms, so you think first.
+            </p>
+            <p>
+              <strong>Why the answers are partial.</strong> Nosta (2025)
+              describes AI output as borrowed certainty: fluent language with no
+              visible labour behind it. The model here is told to leave gaps,
+              ask questions, and never write for you, so the uncertainty stays
+              yours.
+            </p>
+            <p>
+              <strong>Why the delay cannot be skipped.</strong> Gosline,
+              reported by Andon (2025), argues that some friction is what makes
+              deliberation happen. The wait, the justification and the partial
+              answer are designed friction, not technical limits.
+            </p>
+            <p>
+              <strong>Why it looks like this.</strong> The Slow Web movement
+              (Fiedel, 2015; IndieWeb, 2026) treats pacing as a value choice.
+              Hence the whitespace, the slow transitions, and the absence of
+              badges, streaks or urgency.
+            </p>
+            <p class="muted">
+              Nothing you write is stored. The only thing sent anywhere is the
+              help request itself. Everything else stays in this browser tab and
+              disappears when you close it.
+            </p>
+          </div>
+        </details>
+        <details id="key-details" hidden>
+          <summary>API settings</summary>
+          <div class="about">
+            <p class="muted">
+              No API key was found in js/config.js. You can paste one here for
+              this tab only. It is kept in memory and never stored. Without one,
+              Revise runs in demo mode with pre-written prompts.
+            </p>
+            <label for="key-input" class="sr">Anthropic API key</label>
+            <input
+              id="key-input"
+              class="field"
+              type="password"
+              autocomplete="off"
+              placeholder="sk-ant-..."
+            />
+          </div>
+        </details>
+      </footer>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/effort.js"></script>
+    <script src="js/assistant.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
